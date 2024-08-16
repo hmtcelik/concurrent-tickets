@@ -11,10 +11,14 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+// This function is special, its like a constructor for the tests
+// You can do whatever you want before the tests (or after)
 func TestMain(m *testing.M) {
 	m.Run()
 }
 
+// This function is used to connect to a mock database for testing
+// So that the actual database is not affected by the tests
 func ConnectMockDB(t *testing.T) (*sql.DB, sqlmock.Sqlmock) {
 	mockDb, mock, err := sqlmock.New()
 	if err != nil {
