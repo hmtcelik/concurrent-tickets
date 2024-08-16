@@ -12,7 +12,7 @@ import (
 
 var DB *gorm.DB
 
-func Connect(name ...string) {
+func Connect() {
 	// Data Source Name
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 		config.DB_HOST, config.DB_USER, config.DB_PASS, config.DB_NAME, config.DB_PORT,

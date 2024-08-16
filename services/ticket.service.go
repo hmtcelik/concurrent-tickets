@@ -8,6 +8,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Create Ticket
+//
+//	@Summary		Create Ticket
+//	@Description	Creating a new Ticket
+//	@Tags			Tickets
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		types.TicketCreate	true	"Ticket Create"
+//	@Success		201		{object}	types.TicketResponse
+//	@Router			/tickets [post]
 func CreateTicket(c *fiber.Ctx) error {
 
 	b := new(types.TicketCreate)
@@ -34,6 +44,16 @@ func CreateTicket(c *fiber.Ctx) error {
 	})
 }
 
+// Get Ticket
+//
+//	@Summary		Get Ticket
+//	@Description	Getting a Ticket by ID
+//	@Tags			Tickets
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		string	true	"Ticket ID"
+//	@Success		200	{object}	types.TicketResponse
+//	@Router			/tickets/{id} [get]
 func GetTicket(c *fiber.Ctx) error {
 
 	id := c.Params("id")

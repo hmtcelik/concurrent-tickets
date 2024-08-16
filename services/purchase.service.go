@@ -1,6 +1,7 @@
 package services
 
 import (
+	"strconv"
 	"ticket-allocating/dal"
 	"ticket-allocating/types"
 	"ticket-allocating/utils"
@@ -9,6 +10,17 @@ import (
 	"gorm.io/gorm"
 )
 
+// Create Purchase
+//
+//	@Summary		Create Purchase
+//	@Description	Creating a new Purchase
+//	@Tags			Purchases
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path	string					true	"Ticket ID"
+//	@Param			body	body	types.PurchaseCreate	true	"Purchase Create"
+//	@Success		201
+//	@Router			/tickets/{id}/purchases [post]
 func CreatePurchase(c *fiber.Ctx) error {
 
 	b := new(types.PurchaseCreate)
@@ -22,8 +34,13 @@ func CreatePurchase(c *fiber.Ctx) error {
 		UserId:   b.UserId,
 	}
 
+	ticktedId, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Please provide a valid ticket id")
+	}
+
 	// For implementation, check the function in dal/purchase.dal.go
-	if err := dal.CreatePurchaseWithTransaction(c.Params("id"), d); err != nil {
+	if err := dal.CreatePurchaseWithTransaction(ticktedId, d); err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return fiber.NewError(fiber.StatusNotFound, err.Error())
 		}

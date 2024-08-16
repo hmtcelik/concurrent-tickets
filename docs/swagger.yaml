@@ -1,0 +1,114 @@
+basePath: /
+definitions:
+  types.PurchaseCreate:
+    properties:
+      quantity:
+        type: integer
+      user_id:
+        type: string
+    required:
+    - quantity
+    - user_id
+    type: object
+  types.TicketCreate:
+    properties:
+      allocation:
+        type: integer
+      desc:
+        type: string
+      name:
+        type: string
+    required:
+    - allocation
+    - desc
+    - name
+    type: object
+  types.TicketResponse:
+    properties:
+      allocation:
+        type: integer
+      desc:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: abhmtcelik@gmail.com
+    name: API Support
+  description: Concurrent Ticket Allocating API with Golang Fiber
+  title: Ticket Allocating API
+  version: "1.0"
+paths:
+  /tickets:
+    post:
+      consumes:
+      - application/json
+      description: Creating a new Ticket
+      parameters:
+      - description: Ticket Create
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/types.TicketCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/types.TicketResponse'
+      summary: Create Ticket
+      tags:
+      - Tickets
+  /tickets/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Getting a Ticket by ID
+      parameters:
+      - description: Ticket ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.TicketResponse'
+      summary: Get Ticket
+      tags:
+      - Tickets
+  /tickets/{id}/purchases:
+    post:
+      consumes:
+      - application/json
+      description: Creating a new Purchase
+      parameters:
+      - description: Ticket ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Purchase Create
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/types.PurchaseCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      summary: Create Purchase
+      tags:
+      - Purchases
+swagger: "2.0"

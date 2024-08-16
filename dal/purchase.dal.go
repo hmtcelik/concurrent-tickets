@@ -1,7 +1,6 @@
 package dal
 
 import (
-	"fmt"
 	"ticket-allocating/config/database"
 
 	"gorm.io/gorm"
@@ -17,14 +16,11 @@ type Purchase struct {
 // --------------- Logic ---------------
 // Creates a purchase if enough allocation is available
 // This function locks the ticket row for update to prevent concurrency issues
-func CreatePurchaseWithTransaction(ticketID string, purchase *Purchase) error {
+func CreatePurchaseWithTransaction(ticketID int, purchase *Purchase) error {
 	return database.DB.Transaction(func(tx *gorm.DB) error {
-		fmt.Println("CreatePurchaseWithTransaction")
-
 		// Find the ticket and lock the row for update
 		ticket := &Ticket{}
 		if err := tx.Clauses(clause.Locking{Strength: "UPDATE"}).Where("id = ?", ticketID).First(ticket).Error; err != nil {
-			fmt.Println("Ticket found")
 			return gorm.ErrRecordNotFound
 		}
 
@@ -44,7 +40,6 @@ func CreatePurchaseWithTransaction(ticketID string, purchase *Purchase) error {
 			return err
 		}
 
-		fmt.Println("Purchase created")
 		// After the transaction is committed, the ticket allocation will be updated
 		// So after the return; the row will be unlocked because the transaction is committed
 		return nil

@@ -39,9 +39,6 @@ services:
     working_dir: /app
     env_file:
       - .example.env
-    depends_on:
-      db:
-        condition: service_healthy
     volumes:
       - .:/app
     command: go test ./tests/... -v -coverprofile=coverage.out
