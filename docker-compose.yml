@@ -27,12 +27,26 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .env
+      - .example.env
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - .:/app
+
+  test:
+    image: golang:alpine
+    working_dir: /app
+    env_file:
+      - .example.env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    command: go test ./tests/... -v -coverprofile=coverage.out
+    profiles:
+      - test
 
 volumes:
   postgres_data:

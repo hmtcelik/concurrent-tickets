@@ -1,4 +1,4 @@
-package main
+package tests
 
 import (
 	"testing"
@@ -29,11 +29,10 @@ func TestGetTicket(t *testing.T) {
 	assert.NoError(t, err, "Failed to create ticket")
 
 	ticket := new(dal.Ticket)
-	err = dal.FindTicket(ticket, ticket.ID).Error
+	err = dal.FindTicket(ticket, newTicket.ID).Error
 	assert.NoError(t, err, "Failed to find ticket")
 
-	assert.Equal(t, newTicket.ID, ticket.ID, "Ticket ID mismatch")
-	assert.Equal(t, newTicket.Name, ticket.Name, "Ticket Name mismatch")
-	assert.Equal(t, newTicket.Desc, ticket.Desc, "Ticket Desc mismatch")
-	assert.Equal(t, newTicket.Allocation, ticket.Allocation, "Ticket Allocation mismatch")
+	assert.Equal(t, newTicket.Name, ticket.Name, "Ticket name mismatch")
+	assert.Equal(t, newTicket.Desc, ticket.Desc, "Ticket description mismatch")
+	assert.Equal(t, newTicket.Allocation, ticket.Allocation, "Ticket allocation mismatch")
 }

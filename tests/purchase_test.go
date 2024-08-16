@@ -20,7 +20,7 @@ func TestConcurrentPurchases(t *testing.T) {
 	assert.NoError(t, err, "Failed to create initial ticket")
 
 	// Create a number of concurrent purchase requests
-	numRequests := 6
+	numRequests := 10
 	var wg sync.WaitGroup
 	wg.Add(numRequests)
 
@@ -57,10 +57,8 @@ func TestConcurrentPurchases(t *testing.T) {
 	assert.NoError(t, err, "Failed to find ticket")
 
 	// Check the allocation of the ticket as expected
-	expectedAllocation := initialTicket.Allocation
-	assert.Equal(t, expectedAllocation, ticket.Allocation, "Allocation does not match expected value")
+	assert.Equal(t, 0, ticket.Allocation, "Ticket allocation mismatch")
 
-	// Check the number of failed requests as expected
-	expectedFailedRequests := numRequests - initialTicket.Allocation
-	assert.True(t, failedRequests >= expectedFailedRequests, "Number of failed requests is less than expected")
+	// Check the number of failed requests
+	assert.Equal(t, 5, failedRequests, "Failed requests mismatch")
 }
