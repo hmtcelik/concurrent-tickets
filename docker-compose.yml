@@ -41,7 +41,7 @@ services:
       - .example.env
     volumes:
       - .:/app
-    command: go test ./tests/... -v -coverprofile=coverage.out
+    command: go test ./tests/... -v
     profiles:
       - test
 
